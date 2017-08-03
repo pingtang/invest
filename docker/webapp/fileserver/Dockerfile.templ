@@ -2,8 +2,8 @@ FROM node:argon
 MAINTAINER {username}  <{username}@{username}.com>
 
 # Add the nodeuser and nodegroup
-RUN groupadd -g 501 {username} 
-RUN useradd -u 501 -g {username} -m {username} 
+RUN groupadd -g {userid} {username} 
+RUN useradd -u {userid} -g {username} -m {username} 
 
 # Install dependencies
 RUN npm install http-server -g
