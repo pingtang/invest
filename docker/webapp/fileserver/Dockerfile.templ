@@ -2,7 +2,7 @@ FROM node:argon
 MAINTAINER {username}  <{username}@{username}.com>
 
 # Add the nodeuser and nodegroup
-RUN groupadd -g {userid} {username} 
+RUN groupadd -o -g {userid} {username} 
 RUN useradd -u {userid} -g {username} -m {username} 
 
 # Install dependencies
