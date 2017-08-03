@@ -1,0 +1,22 @@
+FROM node:argon
+MAINTAINER {username}  <{username}@{username}.com>
+
+# Add the nodeuser and nodegroup
+RUN groupadd -g 501 {username} 
+RUN useradd -u 501 -g {username} -m {username} 
+
+# Install dependencies
+RUN npm install http-server -g
+
+# Create fileshare directory and set permissions
+RUN mkdir /fileshare
+RUN chown {username}: /fileshare
+
+# Set the environment user to nzrtcbld
+USER {username} 
+
+# Set Working directory
+WORKDIR /fileshare
+
+EXPOSE 3001
+CMD [ "http-server", "-p", "3001" ]

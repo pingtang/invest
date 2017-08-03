@@ -1,0 +1,26 @@
+version: "2"
+
+services:
+  archivefs:
+    image: "local/invest-fileserver:latest"
+    ports:
+      - "3001:3001"
+    volumes:
+     - "/invest/archive/:/fileshare/:ro"
+    restart: "always"
+
+  redis:
+    image: "redis:3.2.6-alpine"
+    volumes:
+     - "/invest/redis/:/data/:rw"
+    restart: "always"
+    command: "redis-server --appendonly yes"
+
+  postgres:
+    image: "postgres:9.2"
+    container_name: "postgres"
+    ports:
+     - "5432:5432"
+    volumes:
+     - "/invest/postgres/data:/var/lib/postgresql/data:rw"
+    restart: "always"
