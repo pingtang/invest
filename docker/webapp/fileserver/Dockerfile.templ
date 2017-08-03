@@ -3,7 +3,7 @@ MAINTAINER {username}  <{username}@{username}.com>
 
 # Add the nodeuser and nodegroup
 RUN groupadd -o -g {userid} {username} 
-RUN useradd -u {userid} -g {username} -m {username} 
+RUN useradd -o -u {userid} -g {username} -m {username} 
 
 # Install dependencies
 RUN npm install http-server -g
