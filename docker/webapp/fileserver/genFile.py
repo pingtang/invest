@@ -9,10 +9,12 @@ def main ():
         print userid, username
 	data = {"username": username, "userid": userid}
 
-        with open('Dockerfile.templ', 'r') as content_file:
+        filepath = os.path.realpath(__file__)
+        filedir =  os.path.dirname(os.path.abspath(filepath))
+        with open(filedir+'/Dockerfile.templ', 'r') as content_file:
     		template = content_file.read()
 	print template.format(**data)
-        f = open('Dockerfile', 'w')
+        f = open(filedir+'/Dockerfile', 'w')
         f.write(template.format(**data))
 
 if __name__ == "__main__":
