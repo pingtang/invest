@@ -6,7 +6,7 @@ services:
     ports:
       - "3001:3001"
     volumes:
-     - "/invest/archive/:/fileshare/:ro"
+     - "/invest/archive/:/fileshare/:z"
     restart: "always"
 
   redis:
