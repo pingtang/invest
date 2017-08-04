@@ -7,6 +7,8 @@ printf "${__SCRIPT}\n"
 printf "${__BIN}\n"
 printf "${__WEBAPP_ROOT}\n"
 
+python "${__WEBAPP_ROOT}/fileserver//genFile.py"
+
 printf "Re-building 'local/invest-webapp:latest' Docker image...\n"
 
 #echo DEBUG: __WEBAPP_ROOT=${__WEBAPP_ROOT}
