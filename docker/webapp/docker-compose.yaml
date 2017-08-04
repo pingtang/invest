@@ -24,3 +24,15 @@ services:
     volumes:
      - "/invest/postgres/data:/var/lib/postgresql/data:z"
     restart: "always"
+
+  wordpress:
+    image: wordpress
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_PASSWORD: example
+
+  mysql:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: example
