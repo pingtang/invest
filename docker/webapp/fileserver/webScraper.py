@@ -27,7 +27,6 @@ def main ():
         	webScraperCmd = "cd /invest/archive && curl -O -J 'http://financials.morningstar.com/ajax/ReportProcess4CSV.html?t="+symbol+"&reportType=is&period=3&dataType=A&order=asc&columnYear=5&number=3'"
                 print webScraperCmd
                 os.system(webScraperCmd)
-                os.system('cp /invest/archive/* /invest/postgres/data')
 
 if __name__ == "__main__":
 	main()

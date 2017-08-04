@@ -33,7 +33,7 @@ fi
 
 printf "Running 'docker-compose -f \"${__WEBAPP_ROOT}/docker-compose.yaml\" up -d'...\n"
 
-docker-compose -f "${__WEBAPP_ROOT}/docker-compose.yaml" up -d 2>&1 
+docker-compose -f "${__WEBAPP_ROOT}/docker-compose.yaml" up --remove-orphans  -d  2>&1 
 __ERR_CODE="${PIPESTATUS[0]}"
 if [ "${__ERR_CODE}" -ne 0 ]
 then

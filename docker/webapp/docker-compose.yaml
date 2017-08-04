@@ -17,7 +17,7 @@ services:
     command: "redis-server --appendonly yes"
 
   postgres:
-    image: "postgres:9.2"
+    image: "postgres:9.6"
     container_name: "postgres"
     ports:
      - "5432:5432"
