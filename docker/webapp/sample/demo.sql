@@ -2,7 +2,7 @@
 --vi /gpfs/postgres/prod/data/unusual-options-activity-stocks-07-26-2017.csv
 --vi /gpfs/postgres/prod/data/candidate.csv
 --vi /gpfs/postgres/prod/data/results.json
-copy (select row_to_json(t) from ( select * from tab1) t) to '/var/lib/postgresql/data/tab1.json';
+--copy (select row_to_json(t) from ( select * from tab1) t) to '/var/lib/postgresql/data/tab1.json';
 
 drop table candidate;
 create table candidate (symbol char(6));
