@@ -19,7 +19,3 @@ copy (select array_to_json(array_agg(t)) from
      (select * from uohistory a, candidate b where a.Symbol = b.Symbol and a.ratio >= 10 ORDER by a.symbol, a.ratio DESC)
      t ) to '/var/lib/postgresql/data/results.json';
 
-npm install json-table
-npm uninstall json-table
-npm list
-node /Users/ptang/node_Projects/MySite/app.js
