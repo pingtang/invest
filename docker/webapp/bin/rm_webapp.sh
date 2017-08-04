@@ -6,7 +6,7 @@ __WEBAPP_ROOT="$(dirname "${__BIN}")"
 
 printf "Running 'docker-compose -f \"${__WEBAPP_ROOT}/docker-compose.yaml\" down'...\n"
 
-docker-compose -f "${__WEBAPP_ROOT}/docker-compose.yaml" down | sed 's/^/    /g'
+docker-compose  -f "${__WEBAPP_ROOT}/docker-compose.yaml" down | sed 's/^/    /g'
 __ERR_CODE="${PIPESTATUS[0]}"
 if [ "${__ERR_CODE}" -ne 0 ]
 then
@@ -14,3 +14,4 @@ then
     exit 9
 fi
 
+docker-compose rm
