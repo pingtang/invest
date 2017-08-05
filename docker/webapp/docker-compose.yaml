@@ -27,6 +27,7 @@ services:
 
   wordpress:
     image: wordpress
+    container_name: "wordpress"
     ports:
       - 8080:80
     environment:
@@ -34,5 +35,6 @@ services:
 
   mysql:
     image: mariadb
+    container_name: "mysql"
     environment:
       MYSQL_ROOT_PASSWORD: example
