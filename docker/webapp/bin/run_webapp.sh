@@ -57,13 +57,13 @@ cp /invest/archive/*.csv /invest/mysql/
 cp ${__WEBAPP_ROOT}/sample/* /invest/postgres/data/
 cp ${__WEBAPP_ROOT}/sample/* /invest/mysql/
 docker exec -it postgres psql -U postgres -d postgres -f ./var/lib/postgresql/data/demo.sql
-docker exec -i mysql mysql -u root -pexample < /invest/mysql/demo_mysql.sql
+docker exec -i mysql mysql -u root -pexample --force < /invest/mysql/demo_mysql.sql
 
 #load all tickers to database
 TICKERS=`cat ../fileserver/tickerlist`
 for TICKER in $TICKERS; do
    echo "$TICKER"
-   docker exec -i mysql mysql -u root -pexample < /invest/mysql/${TICKER}_demo_load.sql
+   docker exec -i mysql mysql -u root -pexample --force < /invest/mysql/${TICKER}_demo_load.sql
 done
 
 printf "Done! Check out http:// to see your running webapp.\n"
