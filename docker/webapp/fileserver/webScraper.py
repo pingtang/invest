@@ -23,10 +23,19 @@ def main ():
             for ticker in file:
                 ticker = ticker.strip()
                 tickerlist.append(ticker)
-        for symbol in tickerlist:
-        	webScraperCmd = "cd /invest/archive && curl -O -J 'http://financials.morningstar.com/ajax/ReportProcess4CSV.html?t="+symbol+"&reportType=is&period=3&dataType=A&order=asc&columnYear=5&number=3'"
+
+        for ticker in tickerlist:
+        	webScraperCmd = "cd /invest/archive && curl -O -J 'http://financials.morningstar.com/ajax/ReportProcess4CSV.html?t="+ticker+"&reportType=is&period=3&dataType=A&order=asc&columnYear=5&number=3'"
                 print webScraperCmd
                 os.system(webScraperCmd)
+
+                with open(filedir+'/demo_load.sql.templ', 'r') as content_file:
+                    template = content_file.read()
+
+                ticker_data = {"ticker": ticker}
+                print template.format(**ticker_data)
+                f = open('/invest/mysql/'+ticker+'_demo_load.sql', 'w')
+                f.write(template.format(**ticker_data))
 
 if __name__ == "__main__":
 	main()
