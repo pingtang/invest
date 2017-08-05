@@ -47,7 +47,10 @@ then
     sudo chmod 777 /invest/postgres/data
     sudo chown root:root /invest/mysql/
     sudo chmod 777 /invest/mysql/
-
+    sudo chown root:root /invest/imacros/Macros
+    sudo chmod 777 /invest/imacros/Macros
+    sudo chown root:root /invest/imacros/Downloads
+    sudo chmod 777 /invest/imacros/Downloads
 fi
 
 cp ${__WEBAPP_ROOT}/sample/*.iim /invest/imacros/Macros
