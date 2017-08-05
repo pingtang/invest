@@ -45,8 +45,10 @@ __UID=`id -u`
 if [ "${__UID}" -eq 1000 ]
 then
     printf "AWS"
+    printf "Install wordpress plugin: DbTable to DataTable"
     sudo chown root:root /invest/postgres/data
     sudo chmod 777 /invest/postgres/data
+    sudo chown root:root /invest/mysql/
     sudo chmod 777 /invest/mysql/
 
 fi
@@ -54,5 +56,6 @@ fi
 cp ${__WEBAPP_ROOT}/sample/* /invest/postgres/data/
 cp ${__WEBAPP_ROOT}/sample/* /invest/mysql/
 docker exec -it postgres psql -U postgres -d postgres -f ./var/lib/postgresql/data/demo.sql
+docker exec -i mysql mysql -u root -pexample < /invest/mysql/demo_sql.sql
 printf "Done! Check out http:// to see your running webapp.\n"
 

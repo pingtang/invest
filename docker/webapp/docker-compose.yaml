@@ -38,7 +38,5 @@ services:
     container_name: "mysql"
     environment:
       MYSQL_ROOT_PASSWORD: example
-      MYSQL_USER: 'root'
-      MYSQL_PASS: 'example'
     volumes:
       - /invest/mysql:/var/lib/mysql:z
