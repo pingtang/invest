@@ -56,6 +56,6 @@ fi
 cp ${__WEBAPP_ROOT}/sample/* /invest/postgres/data/
 cp ${__WEBAPP_ROOT}/sample/* /invest/mysql/
 docker exec -it postgres psql -U postgres -d postgres -f ./var/lib/postgresql/data/demo.sql
-docker exec -i mysql mysql -u root -pexample < /invest/mysql/demo_sql.sql
+docker exec -i mysql mysql -u root -pexample < /invest/mysql/demo_mysql.sql
 printf "Done! Check out http:// to see your running webapp.\n"
 
