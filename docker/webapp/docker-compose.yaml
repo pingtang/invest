@@ -36,3 +36,5 @@ services:
     image: mariadb
     environment:
       MYSQL_ROOT_PASSWORD: example
+    volumes:
+      - /invest/mysql:/var/lib/mysql
