@@ -37,4 +37,4 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
     volumes:
-      - /invest/mysql:/var/lib/mysql
+      - /invest/mysql:/var/lib/mysql:z
