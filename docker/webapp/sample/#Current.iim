@@ -1,0 +1,13 @@
+﻿VERSION BUILD=9030808 RECORDER=FX
+TAB T=1
+URL GOTO=https://www.barchart.com/options/unusual-activity#/
+TAG POS=1 TYPE=A ATTR=TXT:Log<SP>In<SP>or<SP>Sign<SP>Up
+TAG POS=1 TYPE=INPUT:TEXT FORM=ID:bc-login-form ATTR=NAME:email CONTENT=ptang83@yahoo.com
+SET !ENCRYPTION NO
+TAG POS=1 TYPE=INPUT:PASSWORD FORM=ID:bc-login-form ATTR=ID:login-form-password CONTENT=inf456
+TAG POS=1 TYPE=BUTTON FORM=ID:bc-login-form ATTR=TXT:Log<SP>In
+REFRESH
+ONDOWNLOAD FOLDER=* FILE=+_{{!NOW:yyyymmdd_hhnnss}} WAIT=YES
+TAG POS=1 TYPE=A ATTR=TXT:download
+TAG POS=1 TYPE=I ATTR=CLASS:bc-glyph-chevron-down<SP>right&&TXT:
+TAG POS=1 TYPE=A ATTR=TXT:Log<SP>Out

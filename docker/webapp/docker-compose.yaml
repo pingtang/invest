@@ -40,3 +40,14 @@ services:
       MYSQL_ROOT_PASSWORD: example
     volumes:
       - /invest/mysql:/var/lib/mysql:z
+
+  imacros:
+    image: "ptang83/firefox-imacros:latest"
+    container_name: "imacros"
+    volumes:
+     - "/invest/imacros/Macros:/home/seluser/iMacros/Macros:z"
+     - "/invest/imacros/Downloads:/home/seluser/Downloads:z"
+    ports:
+     - "4444:4444"
+     - "5901:5900"
+    restart: "always"

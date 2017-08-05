@@ -7,9 +7,6 @@ printf "${__SCRIPT}\n"
 printf "${__BIN}\n"
 printf "${__WEBAPP_ROOT}\n"
 
-python "${__WEBAPP_ROOT}/fileserver/genFile.py"
-python "${__WEBAPP_ROOT}/fileserver/webScraper.py"
-
 printf "Re-building 'local/invest-webapp:latest' Docker image...\n"
 
 #echo DEBUG: __WEBAPP_ROOT=${__WEBAPP_ROOT}
@@ -53,18 +50,7 @@ then
 
 fi
 
-cp /invest/archive/*.csv /invest/mysql/
-cp ${__WEBAPP_ROOT}/sample/* /invest/postgres/data/
-cp ${__WEBAPP_ROOT}/sample/* /invest/mysql/
-docker exec -it postgres psql -U postgres -d postgres -f ./var/lib/postgresql/data/demo.sql
-docker exec -i mysql mysql -u root -pexample --force < /invest/mysql/demo_mysql.sql
-
-#load all tickers to database
-TICKERS=`cat ../fileserver/tickerlist`
-for TICKER in $TICKERS; do
-   echo "$TICKER"
-   docker exec -i mysql mysql -u root -pexample --force < /invest/mysql/${TICKER}_demo_load.sql
-done
-
+cp ${__WEBAPP_ROOT}/sample/*.iim /invest/imacros/Macros
+printf "vnc://127.0.0.1:5901 pw:secret\n"
 printf "Done! Check out http:// to see your running webapp.\n"
 
