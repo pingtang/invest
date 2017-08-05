@@ -44,12 +44,15 @@ fi
 __UID=`id -u`
 if [ "${__UID}" -eq 1000 ]
 then
-    print "AWS"
+    printf "AWS"
     sudo chown root:root /invest/postgres/data
     sudo chmod 777 /invest/postgres/data
+    sudo chmod 777 /invest/mysql/
+
 fi
 
 cp ${__WEBAPP_ROOT}/sample/* /invest/postgres/data/
+cp ${__WEBAPP_ROOT}/sample/* /invest/mysql/
 docker exec -it postgres psql -U postgres -d postgres -f ./var/lib/postgresql/data/demo.sql
 printf "Done! Check out http:// to see your running webapp.\n"
 
