@@ -48,7 +48,7 @@ services:
     container_name: "imacros"
     volumes:
      - "/invest/imacros/Macros:/home/seluser/iMacros/Macros:z"
-     - "/invest/imacros/Downloads:/home/seluser/Downloads:z"
+     - "/invest/imacros/Downloads:/home/seluser/iMacros/Downloads:z"
     ports:
      - "4444:4444"
      - "5901:5900"
