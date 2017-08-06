@@ -32,6 +32,8 @@ services:
       - 8080:80
     environment:
       WORDPRESS_DB_PASSWORD: example
+    volumes:
+     - "/invest/wordpress:/var/www/html/wp-content:z"
 
   mysql:
     image: mariadb
