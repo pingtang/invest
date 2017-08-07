@@ -1,0 +1,433 @@
+
+Categories
+
+Jarloo
+Sign in
+
+    Home Code
+    News About
+
+    Previous post
+    Next post
+
+ 
+
+Using the Yahoo Finance API for CSV
+Using the Yahoo Finance API for CSV
+
+    25.02.2012
+    Kelly Elias
+    264
+
+    Facebook
+    Google+
+    Twitter
+
+How the Free Yahoo Finance API Works
+
+Yahoo finance provides a great and simple way to download free stock quotes. This service returns stock data in a CSV. (comma delimited format, you can just open it in Excel if you like)
+
+The service Yahoo finance provides for free stock quotes is REST based. (love REST based stuff) So all you need to do is assemble the URL you want and it will give you the data your looking for.
+
+The API lets you specify multiple symbols to download with a maximum of 200 per call. (You can make multiple calls, but if you call too fast it will lock your IP so be warned)
+
+ 
+How to call the free Yahoo Finance API
+
+The base url your going to call is http://finance.yahoo.com/d/quotes.csv
+
+Then you add a ?s= and the stock symbols your interested in such as APPL, GOOG and MSFT like so
+http://finance.yahoo.com/d/quotes.csv?s=AAPL+GOOG+MSFT
+
+Then you specify the info you want. There is a large list of stuff you can specify, just look at the list below for more info.
+
+http://finance.yahoo.com/d/quotes.csv?s=AAPL+GOOG+MSFT&f=nab
+
+This will get the name of the stock, the ask price and bid price (the “nab” = name,ask and bid)
+
+ 
+Financial Data you can Download
+Pricing 	Dividends
+a: Ask 	y: Dividend Yield
+b: Bid 	d: Dividend per Share
+b2: Ask (Realtime) 	r1: Dividend Pay Date
+b3: Bid (Realtime) 	q: Ex-Dividend Date
+p: Previous Close 	
+o: Open 	
+Date
+c1: Change 	d1: Last Trade Date
+c: Change & Percent Change 	d2: Trade Date
+c6: Change (Realtime) 	t1: Last Trade Time
+k2: Change Percent (Realtime) 	
+p2: Change in Percent 	
+Averages
+c8: After Hours Change (Realtime) 	m5: Change From 200 Day Moving Average
+c3: Commission 	m6: Percent Change From 200 Day Moving Average
+g: Day’s Low 	m7: Change From 50 Day Moving Average
+h: Day’s High 	m8: Percent Change From 50 Day Moving Average
+k1: Last Trade (Realtime) With Time 	m3: 50 Day Moving Average
+l: Last Trade (With Time) 	m4: 200 Day Moving Average
+l1: Last Trade (Price Only) 	
+t8: 1 yr Target Price 	
+Misc
+w1: Day’s Value Change 	g1: Holdings Gain Percent
+w4: Day’s Value Change (Realtime) 	g3: Annualized Gain
+p1: Price Paid 	g4: Holdings Gain
+m: Day’s Range 	g5: Holdings Gain Percent (Realtime)
+m2: Day’s Range (Realtime) 	g6: Holdings Gain (Realtime)
+52 Week Pricing 	Symbol Info
+k: 52 Week High 	i: More Info
+j: 52 week Low 	j1: Market Capitalization
+j5: Change From 52 Week Low 	j3: Market Cap (Realtime)
+k4: Change From 52 week High 	f6: Float Shares
+j6: Percent Change From 52 week Low 	n: Name
+k5: Percent Change From 52 week High 	n4: Notes
+w: 52 week Range 	s: Symbol
+	s1: Shares Owned
+	x: Stock Exchange
+	j2: Shares Outstanding
+Volume
+v: Volume 	
+a5: Ask Size 	
+b6: Bid Size 	Misc
+k3: Last Trade Size 	t7: Ticker Trend
+a2: Average Daily Volume 	t6: Trade Links
+	i5: Order Book (Realtime)
+Ratios 	l2: High Limit
+e: Earnings per Share 	l3: Low Limit
+e7: EPS Estimate Current Year 	v1: Holdings Value
+e8: EPS Estimate Next Year 	v7: Holdings Value (Realtime)
+e9: EPS Estimate Next Quarter 	s6 Revenue
+b4: Book Value 	
+j4: EBITDA 	
+p5: Price / Sales 	
+p6: Price / Book 	
+r: P/E Ratio 	
+r2: P/E Ratio (Realtime) 	
+r5: PEG Ratio 	
+r6: Price / EPS Estimate Current Year 	
+r7: Price / EPS Estimate Next Year 	
+s7: Short Ratio 	
+
+ 
+Getting Stock Data in C#
+
+Since this is a REST based finance API, to get the data using C# is easy. You can simply use a WebClient.DownloadString(myurl) to get the data. Once you get the data, it’s also easy to parse being a simple CSV format.
+
+Download Code
+Here is a quick example of how you can use the free Yahoo Finance API in your C# code.
+
+Application Entry Point (main)
+?
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+	
+using System;
+using System.Collections.Generic;
+using System.Net;
+using jarloo;
+ 
+namespace Jarloo
+{
+    internal class Program
+    {
+        private static void Main(string[] args)
+        {
+            string csvData;
+ 
+            using (WebClient web = new WebClient())
+            {
+                csvData = web.DownloadString("http://finance.yahoo.com/d/quotes.csv?s=AAPL+GOOG+MSFT&f=snbaopl1");
+            }
+ 
+            List<Price> prices = YahooFinance.Parse(csvData);
+ 
+            foreach (Price price in prices)
+            {
+                Console.WriteLine(string.Format("{0} ({1})  Bid:{2} Offer:{3} Last:{4} Open: {5} PreviousClose:{6}",price.Name,price.Symbol,price.Bid,price.Ask,price.Last,price.Open,price.PreviousClose));
+            }
+ 
+            Console.Read();
+ 
+        }
+    }
+}
+
+Parsing Class and State Bag
+?
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+	
+using System;
+using System.Collections.Generic;
+ 
+namespace jarloo
+{
+    public static class YahooFinance
+    {
+        public static List<Price> Parse(string csvData)
+        {
+            List<Price> prices = new List<Price>();
+ 
+            string[] rows = csvData.Replace("\r", "").Split('\n');
+ 
+            foreach (string row in rows)
+            {
+                if (string.IsNullOrEmpty(row)) continue;
+ 
+                string[] cols = row.Split(',');
+ 
+                Price p = new Price();
+                p.Symbol = cols[0];
+                p.Name = cols[1];
+                p.Bid = Convert.ToDecimal(cols[2]);
+                p.Ask = Convert.ToDecimal(cols[3]);
+                p.Open = Convert.ToDecimal(cols[4]);
+                p.PreviousClose = Convert.ToDecimal(cols[5]);
+                p.Last = Convert.ToDecimal(cols[6]);
+ 
+                prices.Add(p);
+            }
+ 
+            return prices;
+        }
+    }
+ 
+    public class Price
+    {
+        public string Symbol { get; set; }
+        public string Name { get; set; }
+        public decimal Bid { get; set; }
+        public decimal Ask { get; set; }
+        public decimal Open { get; set; }
+        public decimal PreviousClose { get; set; }
+        public decimal Last { get; set; }
+    }
+}
+
+ 
+Exchanges and Yahoo
+
+Had lots of people asking how to get stuff from Non-US exchanges. Being a good Canadian myself I’ve been looking into it, and here is the master Yahoo Exchange List for all your data scraping goodness!
+Country 	Exchange 	Suffix 	Delay 	Data Provider
+United States of America 	American Stock Exchange 	N/A 	15 min 	Direct from Exchange
+United States of America 	BATS Exchange 	N/A 	Real-time 	Direct from Exchange
+United States of America 	Chicago Board of Trade 	.CBT 	10 min 	Interactive Data Real-Time Services
+United States of America 	Chicago Mercantile Exchange 	.CME 	10 min 	Interactive Data Real-Time Services
+United States of America 	Dow Jones Indexes 	N/A 	Real-time 	Interactive Data Real-Time Services
+United States of America 	NASDAQ Stock Exchange 	N/A 	15 min 	Direct from Exchange
+United States of America 	New York Board of Trade 	.NYB 	30 min 	Interactive Data Real-Time Services
+United States of America 	New York Commodities Exchange 	.CMX 	30 min 	Interactive Data Real-Time Services
+United States of America 	New York Mercantile Exchange 	.NYM 	30 min 	Interactive Data Real-Time Services
+United States of America 	New York Stock Exchange 	N/A 	15 min 	Direct from Exchange
+United States of America 	OTC Bulletin Board Market 	.OB 	20 min 	Direct from Exchange
+United States of America 	Pink Sheets 	.PK 	15 min 	Direct from Exchange
+United States of America 	S & P Indices 	N/A 	Real-time 	Interactive Data Real-Time Services
+Argentina 	Buenos Aires Stock Exchange 	.BA 	30 min 	Interactive Data Real-Time Services
+Austria 	Vienna Stock Exchange 	.VI 	15 min 	Telekurs
+Australia 	Australian Stock Exchange 	.AX 	20 min 	Interactive Data Real-Time Services
+Belgium 	Brussels Stocks 	.BR 	15 min 	
+Brazil 	BOVESPA – Sao Paolo Stock Exchange 	.SA 	15 min 	Interactive Data Real-Time Services
+Canada 	Toronto Stock Exchange 	.TO 	15 min 	Interactive Data Real-Time Services
+Canada 	TSX Venture Exchange 	.V 	15 min 	Interactive Data Real-Time Services
+Chile 	Santiago Stock Exchange 	.SN 	15 min 	Interactive Data Real-Time Services
+China 	Shanghai Stock Exchange 	.SS 	30 min 	Interactive Data Real-Time Services
+China 	Shenzhen Stock Exchange 	.SZ 	30 min 	Interactive Data Real-Time Services
+Denmark 	Copenhagen Stock Exchange 	.CO 	15 min 	Telekurs
+France 	Euronext 	.NX 	15 min 	Telekurs
+France 	Paris Stock Exchange 	.PA 	15 min 	Telekurs
+Germany 	Berlin Stock Exchange 	.BE 	15 min 	Telekurs
+Germany 	Bremen Stock Exchange 	.BM 	15 min 	Telekurs
+Germany 	Dusseldorf Stock Exchange 	.DU 	15 min 	Telekurs
+Germany 	Frankfurt Stock Exchange 	.F 	15 min 	Telekurs
+Germany 	Hamburg Stock Exchange 	.HM 	15 min 	Telekurs
+Germany 	Hanover Stock Exchange 	.HA 	15 min 	Telekurs
+Germany 	Munich Stock Exchange 	.MU 	15 min 	Telekurs
+Germany 	Stuttgart Stock Exchange 	.SG 	15 min 	Telekurs
+Germany 	XETRA Stock Exchange 	.DE 	15 min 	Telekurs
+Hong Kong 	Hong Kong Stock Exchange 	.HK 	15 min 	Interactive Data Real-Time Services
+India 	Bombay Stock Exchange 	.BO 	15 min 	Interactive Data Real-Time Services
+India 	National Stock Exchange of India 	.NS 	15 min 	National Stock Exchange of India
+Indonesia 	Jakarta Stock Exchange 	.JK 	10 min 	Interactive Data Real-Time Services
+Israel 	Tel Aviv Stock Exchange 	.TA 	20 min 	Telekurs
+Italy 	Milan Stock Exchange 	.MI 	20 min 	Telekurs
+Japan 	Nikkei Indices 	N/A 	30 min 	Interactive Data Real-Time Services
+Mexico 	Mexico Stock Exchange 	.MX 	20 min 	Telekurs
+Netherlands 	Amsterdam Stock Exchange 	.AS 	15 min 	Telekurs
+New Zealand 	New Zealand Stock Exchange 	.NZ 	20 min 	Interactive Data Real-Time Services
+Norway 	Oslo Stock Exchange 	.OL 	15 min 	Telekurs
+Portugal 	Lisbon Stocks 	.LS 	15 min 	
+Singapore 	Singapore Stock Exchange 	.SI 	20 min 	Interactive Data Real-Time Services
+South Korea 	Korea Stock Exchange 	.KS 	20 min 	Interactive Data Real-Time Services
+South Korea 	KOSDAQ 	.KQ 	20 min 	Interactive Data Real-Time Services
+Spain 	Barcelona Stock Exchange 	.BC 	15 min 	Telekurs
+Spain 	Bilbao Stock Exchange 	.BI 	15 min 	Telekurs
+Spain 	Madrid Fixed Income Market 	.MF 	15 min 	Telekurs
+Spain 	Madrid SE C.A.T.S. 	.MC 	15 min 	Telekurs
+Spain 	Madrid Stock Exchange 	.MA 	15 min 	Telekurs
+Sweden 	Stockholm Stock Exchange 	.ST 	15 min 	Telekurs
+Switzerland 	Swiss Exchange 	.SW 	30 min 	Telekurs
+Taiwan 	Taiwan OTC Exchange 	.TWO 	20 min 	Interactive Data Real-Time Services
+Taiwan 	Taiwan Stock Exchange 	.TW 	20 min 	Interactive Data Real-Time Services
+United Kingdom 	FTSE Indices 	N/A 	15 min 	Telekurs
+United Kingdom 	London Stock Exchange 	.L 	20 min 	Telekurs
+Share this:
+
+    EmailPrintRedditFacebookTwitterGoogle
+
+Related
+
+Get Stock Data from Google Finance and YQLMarch 5, 2012In "Code"
+
+Get Yahoo Finance API Data via YQLNovember 25, 2010In "Code"
+
+Google Stock APIDecember 31, 2010In "Finance"
+
+Categories:   Code, Finance
+
+Tags:  api, c#, csharp, finance, financial, rest, stocks, yahoo
+Comments
+
+Sorry, comments are closed for this item.
+Tags
+animation api asp.net atom c# code code contracts color configuration csharp currency datagrid datatable equities excel exchange finance formula gmail google google option api historical httpwebrequest ib interactive brokers interop lazy MVVM node.js option chain options rabbitmq rdf rest rss stock options stocks tws visual studio 2010 visual studio code webclient webrequest wpf yahoo yql
+Most Recent
+
+    Get FX Data from Yahoo for all FX Pairs
+    Real-Time Google Stock API
+    CME Monthly Symbols
+    Google Stock Options API
+    New Visual Studio Code
+
+Categories
+
+    Code (36)
+    Finance (17)
+    News (1)
+    Uncategorized (2)
+
+Subscribe via Email
+
+Enter your email address to subscribe and receive notifications of new posts by email.
+
+Recent Posts
+
+    Using the Yahoo Finance API for CSV
+    Using the Yahoo Finance API for CSV
+    Using the Yahoo Finance API for CSV
+    Using the Yahoo Finance API for CSV
+    Using the Yahoo Finance API for CSV
+    Using the Yahoo Finance API for CSV
+    Using the Yahoo Finance API for CSV
+    Using the Yahoo Finance API for CSV
+    Using the Yahoo Finance API for CSV
+
+Scroll to Top
+Pages
+
+    About
+    Jarloo Mobile 
+
+Bookmarks
+
+    Documentation
+    Plugins
+    Suggest Ideas
+    Support Forum
+    Themes
+
+Recent Posts
+
+    Get FX Data from Yahoo for all FX Pairs
+    Real-Time Google Stock API
+    CME Monthly Symbols
+    Google Stock Options API
+    New Visual Studio Code
+
+Popular Posts
+
+    Using the Yahoo Finance API for CSV
+    Get Yahoo Finance API Data via YQL
+    Google Stock API
+    C# UDP Multicasting Tutorial
+    Get Stock Data from Google Finance and YQL
+
+Follow Us
+
+    Twitter
+    Youtube
+
+Copyright © 2017 Jarloo
+:)
