@@ -4,6 +4,8 @@ import os
 import pwd
 
 def main ():
+        permission_cmd = "May need give proper permission by command: sudo chmod 777 -R /invest/mysql/*"
+        print permission_cmd
         userid = os.getuid()
         username = os.getlogin()
         print userid, username
@@ -17,6 +19,11 @@ def main ():
 	print template.format(**data)
         f = open(filedir+'/Dockerfile', 'w')
         f.write(template.format(**data))
+
+        target_dir = '/invest/archive/'
+        clean_old_cvs_cmd = 'rm -rf ' +  target_dir + '*Income*.csv' 
+        print clean_old_cvs_cmd
+        os.system(clean_old_cvs_cmd)
 
         tickerlist = []
         with open(filedir+'/tickerlist', 'r') as file:

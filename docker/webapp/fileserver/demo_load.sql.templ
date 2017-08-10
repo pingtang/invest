@@ -1,7 +1,7 @@
 use wordpress;
 
 drop table {ticker};
-create table {ticker}( Content varchar(80), 2016Q1 float,  2016Q2 float, 2016Q3 float, 2016Q4 float, 2017Q1 float, TTM float, UNIQUE (Content));
+create table {ticker}( Content varchar(80), Q1 float,  Q2 float, Q3 float, Q4 float, CQ1 float, TTM float, UNIQUE (Content));
 truncate {ticker};
 LOAD DATA LOCAL INFILE '/var/lib/mysql/{ticker} Income Statement.csv'  INTO TABLE {ticker} FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 2 ROWS;
 select * from {ticker};

@@ -6,7 +6,6 @@ __WEBAPP_ROOT="$(dirname "${__BIN}")"
 printf "${__SCRIPT}\n"
 printf "${__BIN}\n"
 printf "${__WEBAPP_ROOT}\n"
-exit
 
 print "Remove dangling  Docker image...\n"
 echo DEBUG: __WEBAPP_ROOT=${__WEBAPP_ROOT}
