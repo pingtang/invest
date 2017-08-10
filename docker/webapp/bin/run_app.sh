@@ -6,10 +6,12 @@ __WEBAPP_ROOT="$(dirname "${__BIN}")"
 printf "${__SCRIPT}\n"
 printf "${__BIN}\n"
 printf "${__WEBAPP_ROOT}\n"
+exit
 
-printf "Remove dangling  Docker image...\n"
+print "Remove dangling  Docker image...\n"
 echo DEBUG: __WEBAPP_ROOT=${__WEBAPP_ROOT}
 dangling_img=$(docker images -f "dangling=true" -q)
+echo "dangling image: $dangling_img\n"
 if  ! [ -z "$dangling_img" ]
 then
     docker rmi $(docker images -f "dangling=true" -q)
@@ -71,5 +73,5 @@ printf "vnc://127.0.0.1:5901 pw:secret\n"
 printf "WP plugin :  DbTable to DataTable\n"
 printf "WP plugin :  Stock Quote\n"
 printf "WP plugin :  Tabulate\n"
-printf "Done! Check out http:// to see your running webapp.\n"
+printf "Done!\n"
 
