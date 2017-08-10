@@ -56,5 +56,7 @@ fi
 cp ${__WEBAPP_ROOT}/sample/*.iim /invest/imacros/Macros
 printf "vnc://127.0.0.1:5901 pw:secret\n"
 printf "WP plugin :  DbTable to DataTable\n"
+printf "WP plugin :  Stock Quote\n"
+printf "WP plugin :  Tabulate\n"
 printf "Done! Check out http:// to see your running webapp.\n"
 
