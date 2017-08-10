@@ -7,16 +7,29 @@ printf "${__SCRIPT}\n"
 printf "${__BIN}\n"
 printf "${__WEBAPP_ROOT}\n"
 
-printf "Re-building 'local/invest-webapp:latest' Docker image...\n"
+printf "Remove dangling  Docker image...\n"
+echo DEBUG: __WEBAPP_ROOT=${__WEBAPP_ROOT}
+dangling_img=$(docker images -f "dangling=true" -q)
+if  ! [ -z "$dangling_img" ]
+then
+    docker rmi $(docker images -f "dangling=true" -q)
+    __ERR_CODE="${PIPESTATUS[0]}"
+    if [ "${__ERR_CODE}" -ne 0 ]
+    then
+        printf >&2 "There was an error (${__ERR_CODE}) running 'docker rmi $(docker images -f "dangling=true" -q).\n"
+        exit 4
+    fi
+fi
 
-#echo DEBUG: __WEBAPP_ROOT=${__WEBAPP_ROOT}
-#docker build --pull --force-rm -t local/invest-webapp:latest "${__WEBAPP_ROOT}" 
-#__ERR_CODE="${PIPESTATUS[0]}"
-#if [ "${__ERR_CODE}" -ne 0 ]
-#then
-#    printf >&2 "There was an error (${__ERR_CODE}) running 'docker build --pull --force-rm -t local/invest-webapp:latest \"${__WEBAPP_ROOT}\"'.\n"
-#    exit 4
-#fi
+printf "Pulling ptang83/firefox-imacros image...\n"
+echo DEBUG: __WEBAPP_ROOT=${__WEBAPP_ROOT}
+docker pull ptang83/firefox-imacros 
+__ERR_CODE="${PIPESTATUS[0]}"
+if [ "${__ERR_CODE}" -ne 0 ]
+then
+    printf >&2 "There was an error (${__ERR_CODE}) running 'docker pull ptang83/firefox-imacros.\n"
+    exit 4
+fi
 
 printf "Re-building 'local/invest-fileserver:latest' Docker image...\n"
 
