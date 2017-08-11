@@ -13,7 +13,7 @@ drop table uohistory;
 create table uohistory( Symbol char(6), Price numeric, Type char(4), Strike numeric, ExpDate varchar(12), DTE int, Bid numeric,  Midpoint numeric, Ask numeric, Last numeric, Volume int, OpenInterest int, Ratio numeric, IV char(10), Time varchar(12));
 truncate uohistory;
 --select * from uohistory;
-LOAD DATA LOCAL INFILE '/var/lib/mysql/unusual-options-activity-stocks-07-26-2017.csv'  INTO TABLE uohistory FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE '/var/lib/mysql/unusual-options-activity-stocks.csv'  INTO TABLE uohistory FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
 --UPDATE table SET ExpDate = str_to_date(ExpDate, '%m/%d/%Y');
 
 drop table results;
