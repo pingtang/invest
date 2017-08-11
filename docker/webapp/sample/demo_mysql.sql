@@ -7,7 +7,7 @@
 use wordpress;
 drop table candidate;
 create table candidate (symbol char(6));
-LOAD DATA LOCAL INFILE '/var/lib/mysql/candidate.csv'  INTO TABLE candidate  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE '/var/lib/mysql/tickerlist.csv'  INTO TABLE candidate  FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';
 
 drop table uohistory;
 create table uohistory( Symbol char(6), Price numeric, Type char(4), Strike numeric, ExpDate varchar(12), DTE int, Bid numeric,  Midpoint numeric, Ask numeric, Last numeric, Volume int, OpenInterest int, Ratio numeric, IV char(10), Time varchar(12));

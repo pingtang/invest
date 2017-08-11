@@ -26,7 +26,7 @@ def main ():
         os.system(clean_old_cvs_cmd)
 
         tickerlist = []
-        with open(filedir+'/tickerlist', 'r') as file:
+        with open(filedir+'../sample/tickerlist', 'r') as file:
             for ticker in file:
                 ticker = ticker.strip()
                 tickerlist.append(ticker)
