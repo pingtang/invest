@@ -1,0 +1,45 @@
+[stock_quote symbol=BIDU]
+[tabulate format=table table=BIDU]
+
+[insert_php]
+
+global $wpdb;
+$user_count = $wpdb->get_var( "SELECT COUNT(*) FROM BIDU" );
+$results = $wpdb->get_results( "SELECT  * FROM BIDU" );
+echo "<p>User count is {$user_count}</p>";
+
+//spare memory
+$count = count($results);
+echo "<p>count is {$count}</p>";
+
+[/insert_php]
+<a href="http://www.cnn.com">This is test page</a>
+
+<table border="0.1">
+    <tr>
+     <th>Content</th>
+     <th>2016Q1</th>
+     <th>2016Q2</th>
+     <th>2016Q3</th>
+     <th>2016Q4</th>
+     <th>2017Q1</th>
+     <th>TTM</th>
+    </tr>
+
+      [insert_php]
+        global $wpdb;
+        $result = $wpdb->get_results ( "SELECT * FROM BIDU" );
+        foreach ( $result as $print )   {
+          echo '<tr>';
+          echo '<td>' . $print->Content .'</td>';
+          echo '<td>' . $print->Q1 .'</td>'; 
+          echo '<td>' . $print->Q2 .'</td>';
+          echo '<td>' . $print->Q3 .'</td>';
+          echo '<td>' . $print->Q4 .'</td>'; 
+          echo '<td>' . $print->CQ1 .'</td>';  
+          echo '<td>' . $print->TTM .'</td>';  
+          echo '</tr>';
+        }
+      [/insert_php]
+
+</table>
