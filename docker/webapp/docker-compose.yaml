@@ -45,6 +45,7 @@ services:
 
   imacros:
     image: "ptang83/firefox-imacros:latest"
+#    image: selenium/standalone-firefox-debug
     container_name: "imacros"
     volumes:
      - "/invest/imacros/Macros:/home/seluser/iMacros/Macros:z"
