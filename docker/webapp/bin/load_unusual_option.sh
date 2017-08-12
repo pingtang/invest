@@ -7,6 +7,8 @@ printf "${__SCRIPT}\n"
 printf "${__BIN}\n"
 printf "${__WEBAPP_ROOT}\n"
 
+rm -rf /invest/mysql/tickerlist.csv
+rm -rf  /invest/mysql/demo_mysql.sql
 cp ${__WEBAPP_ROOT}/sample/demo_mysql.sql /invest/mysql/
 cp ${__WEBAPP_ROOT}/sample/tickerlist.csv /invest/mysql/
 cp ${__WEBAPP_ROOT}/sample/unusual_option/unusual-options-activity-stocks.csv /invest/mysql/
