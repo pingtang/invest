@@ -21,12 +21,12 @@ def main ():
         f.write(template.format(**data))
 
         target_dir = '/invest/archive/'
-        clean_old_cvs_cmd = 'rm -rf ' +  target_dir + '*Income*.csv' 
-        print clean_old_cvs_cmd
-        os.system(clean_old_cvs_cmd)
+        clean_old_csv_cmd = 'rm -rf ' +  target_dir + '*Income*.csv' 
+        print clean_old_csv_cmd
+        os.system(clean_old_csv_cmd)
 
         tickerlist = []
-        with open(filedir+'../sample/tickerlist', 'r') as file:
+        with open(filedir+'/../sample/tickerlist.csv', 'r') as file:
             for ticker in file:
                 ticker = ticker.strip()
                 tickerlist.append(ticker)

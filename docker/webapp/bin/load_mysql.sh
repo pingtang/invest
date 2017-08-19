@@ -20,7 +20,7 @@ cp ${__WEBAPP_ROOT}/sample/*.iim /invest/imacros/Macros
 docker exec -i mysql mysql -u root -pexample --force < /invest/mysql/demo_mysql.sql
 
 #load all tickers to database
-TICKERS=`cat ../fileserver/tickerlist`
+TICKERS=`cat ../fileserver/tickerlist.csv`
 for TICKER in $TICKERS; do
    echo "$TICKER"
    docker exec -i mysql mysql -u root -pexample --force < /invest/mysql/${TICKER}_demo_load.sql
