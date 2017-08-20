@@ -47,6 +47,7 @@ services:
     image: "ptang83/firefox-imacros:latest"
 #    image: selenium/standalone-firefox-debug
     container_name: "imacros"
+    shm_size: 2g
     volumes:
      - "/invest/imacros/Macros:/home/seluser/iMacros/Macros:z"
      - "/invest/imacros/Downloads:/home/seluser/iMacros/Downloads:z"
