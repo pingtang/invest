@@ -1,13 +1,13 @@
 version: "2"
 
 services:
-  archivefs:
-    image: "local/invest-fileserver:latest"
-    ports:
-      - "3001:3001"
-    volumes:
-     - "/invest/archive/:/fileshare/:z"
-    restart: "always"
+#  archivefs:
+#    image: "local/invest-fileserver:latest"
+#    ports:
+#      - "3001:3001"
+#    volumes:
+#     - "/invest/archive/:/fileshare/:z"
+#    restart: "always"
 
 #  redis:
 #    image: "redis:3.2.6-alpine"
